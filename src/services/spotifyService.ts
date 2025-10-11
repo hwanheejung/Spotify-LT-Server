@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const getSpotifyAuthUrl = (): string => {
+const getSpotifyAuthUrl = (
+  state: string,
+  codeChallenge: string,
+  codeChallengeMethod: string
+): string => {
   const scope =
     "streaming user-read-private user-read-email user-follow-read user-follow-modify user-top-read user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-recently-played playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private";
   const authUrl = new URL("https://accounts.spotify.com/authorize");
@@ -9,6 +13,9 @@ const getSpotifyAuthUrl = (): string => {
     response_type: "code",
     client_id: process.env.SPOTIFY_CLIENT_ID!,
     scope,
+    state,
+    code_challenge_method: codeChallengeMethod,
+    code_challenge: codeChallenge,
     redirect_uri: process.env.SPOTIFY_REDIRECT_URI!,
   };
 

@@ -5,7 +5,12 @@ import Session from "../models/Session.js";
 import { IUser } from "../models/User.js";
 
 export const requestSpotifyAuthUrl = (req: Request, res: Response) => {
-  const url = spotifyService.getSpotifyAuthUrl();
+  const { state, code_challenge, code_challenge_method } = req.query;
+  const url = spotifyService.getSpotifyAuthUrl(
+    state as string,
+    code_challenge as string,
+    code_challenge_method as string
+  );
   res.json({ url });
 };
 
