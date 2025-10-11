@@ -23,6 +23,23 @@ const artistResolvers = {
       const data = await spotifyAxios.get(`/artists/${artistId}`);
       return mapArtist(data);
     },
+    savedArtists: async (
+      _: unknown,
+      { after }: { after: string },
+      context: MyContext
+    ) => {
+      if (!context.isAuthenticated) throw new Error(ERROR.USER_NOT_FOUND);
+      const { spotifyAxios } = context;
+
+      const data = await spotifyAxios.get("/me/following", {
+        params: {
+          type: "artist",
+          limit: 10,
+          after,
+        },
+      });
+      return data.artists.items.map(mapArtist);
+    },
   },
 };
 

@@ -45,8 +45,16 @@ export const albumTypeDefs = gql`
     type: String
   }
 
+  type NewRelease {
+    id: String!
+    name: String!
+    images: [Image!]
+    artists: [AlbumArtist!]
+  }
+
   type Query {
     album(albumId: String!): Album
     savedAlbums(offset: Int = 0, limit: Int = 20): [SavedAlbum]
+    newReleases(offset: Int = 0, limit: Int = 4): [NewRelease]
   }
 `;

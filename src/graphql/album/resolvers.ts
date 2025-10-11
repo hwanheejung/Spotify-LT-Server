@@ -64,6 +64,24 @@ const albumResolvers = {
         album: mapAlbum(item.album),
       }));
     },
+    newReleases: async (
+      _: unknown,
+      { offset = 0, limit = 20 },
+      context: MyContext
+    ) => {
+      if (!context.isAuthenticated) throw new Error(ERROR.USER_NOT_FOUND);
+      const { spotifyAxios } = context;
+
+      const data = await spotifyAxios?.get(`/browse/new-releases`, {
+        params: { offset, limit },
+      });
+      return data.albums.items.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        images: item.images,
+        artists: (item.artists || []).map(mapArtist),
+      }));
+    },
   },
 };
 

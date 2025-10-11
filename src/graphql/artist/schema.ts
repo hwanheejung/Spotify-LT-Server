@@ -12,5 +12,6 @@ export const artistTypeDefs = gql`
 
   type Query {
     artist(artistId: String!): Artist
+    savedArtists(after: String): [Artist]
   }
 `;
